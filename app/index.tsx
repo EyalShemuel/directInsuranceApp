@@ -1,14 +1,18 @@
+import { Redirect, Stack, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Stack, useRouter } from 'expo-router';
-import { View, Text, SafeAreaView } from 'react-native';
-import { I18nManager } from 'react-native';
-import SplashScreen from '../screens/SplashScreen';
+import { I18nManager, SafeAreaView, Text, View } from 'react-native';
 import Onboarding from '../screens/Onboarding';
+import SplashScreen from '../screens/SplashScreen';
+
+
+
 
 export default function Index() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isFirstLaunch, setIsFirstLaunch] = useState(true);
+
+  
 
   // וודא שהאפליקציה מוגדרת לתמיכה מלאה בעברית
   useEffect(() => {
@@ -31,8 +35,10 @@ export default function Index() {
   useEffect(() => {
     if (!isLoading) {
       if (!isFirstLaunch) {
-        // router.replace('/(tabs)');
-        console.log('Navigating to tabs');
+         
+         <Redirect href="/auth/authScreen" />;
+        console.log('Navigating to authScreen');
+       
       }
     }
   }, [isLoading, isFirstLaunch, router]);
