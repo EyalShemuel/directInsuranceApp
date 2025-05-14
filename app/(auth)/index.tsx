@@ -1,10 +1,10 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native';
-import AuthScreen from './authScreen';
+import AuthScreen from '../../screens/authScreen';
 
 export default function Home() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+    <SafeAreaView className="flex-1 bg-gray-light justify-center items-center">
       <AuthScreen />
     </SafeAreaView>
   )

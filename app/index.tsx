@@ -1,8 +1,9 @@
-import { Redirect, Stack, useRouter } from 'expo-router';
+import { Href, Stack, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { I18nManager, SafeAreaView, Text, View } from 'react-native';
 import Onboarding from '../screens/Onboarding';
 import SplashScreen from '../screens/SplashScreen';
+
 
 
 
@@ -35,8 +36,7 @@ export default function Index() {
   useEffect(() => {
     if (!isLoading) {
       if (!isFirstLaunch) {
-         
-         <Redirect href="/auth/authScreen" />;
+          router.push("(auth)" as Href)
         console.log('Navigating to authScreen');
        
       }
@@ -52,7 +52,7 @@ export default function Index() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-light">
+    <SafeAreaView className="flex-1 bg-gray-light bg-background-DEFAULT">
       <Stack.Screen options={{ headerShown: false }} />
       <View className="flex-1 justify-center items-center">
         <Text>טוען את האפליקציה...</Text>
