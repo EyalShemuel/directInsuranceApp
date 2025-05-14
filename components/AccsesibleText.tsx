@@ -8,8 +8,8 @@ export interface AccessibleTextProps extends PressableProps {
   type?: 'link' | 'error' | 'header' | 'normal';
   //נתיב הקישור (אופציונלי)
   linkPath?: string | null;
-  // גודל הטקסט: קטן, בינוני או גדול
-  size?: 'small' | 'medium' | 'large';
+  // גודל הטקסט: קטן, בינוני, גדול או ענק
+  size?: 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge';
   // הסטייל של הטקסט: רגיל, מודגש או נטוי
   fontWeight?: 'normal' | 'bold' | 'italic';
   // האם הטקסט מושבת
@@ -21,26 +21,41 @@ export interface AccessibleTextProps extends PressableProps {
 const AccsesibleText: React.FC<AccessibleTextProps> = ({
   text,
   type = 'normal', //link , text ,header ,error
-  size = 'medium', //small, medium, large
+  size = 'medium', //small, medium, large, xlarge, xxlarge
   linkPath = null,
   fontWeight = 'normal', //normal, bold, italic
   accessibilityHint,
   disabled = false, // true, false 
   ...rest
 }: AccessibleTextProps) => {
+  
+  // פונקציה להחזרת קלאס הטקסט בהתאם לגודל
+  const getTextSizeClass = () => {
+    switch (size) {
+      case 'small':
+        return 'text-sm';
+      case 'medium':
+        return 'text-base';
+      case 'large':
+        return 'text-2xl';
+      case 'xlarge':
+        return 'text-4xl';
+      case 'xxlarge':
+        return 'text-6xl';
+      default:
+        return 'text-base';
+    }
+  };
+
   return (
     <View className={rest.className} >
       <Text
-        
-        // accessibilityRole={type === 'link' ? 'link' : 'text'}
         accessibilityRole={type === 'link' ? 'link' : type === 'error' ? 'alert' : type === 'header' ? 'header' : 'text'}
         accessibilityHint={accessibilityHint}
         accessibilityState={type === 'error' ? { disabled: true } : {}}
         className={
           `
-    ${
-      size === 'small' ? 'text-sm' : size === 'medium' ? 'text-base' : 'text-lg'
-    }
+    ${getTextSizeClass()}
     ${
       fontWeight === 'normal'
         ? 'font-normal'
