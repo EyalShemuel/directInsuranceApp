@@ -9,7 +9,7 @@ export interface AccessibleTextProps extends PressableProps {
   //נתיב הקישור (אופציונלי)
   linkPath?: string | null;
   // גודל הטקסט: קטן, בינוני, גדול או ענק
-  size?: 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge';
+  size?: 'extaSmall'|'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge';
   // הסטייל של הטקסט: רגיל, מודגש או נטוי
   fontWeight?: 'normal' | 'bold' | 'italic';
   // האם הטקסט מושבת
@@ -21,7 +21,7 @@ export interface AccessibleTextProps extends PressableProps {
 const AccsesibleText: React.FC<AccessibleTextProps> = ({
   text,
   type = 'normal', //link , text ,header ,error
-  size = 'medium', //small, medium, large, xlarge, xxlarge
+  size = 'medium', //extaSmall ,small, medium, large, xlarge, xxlarge
   linkPath = null,
   fontWeight = 'normal', //normal, bold, italic
   accessibilityHint,
@@ -32,6 +32,8 @@ const AccsesibleText: React.FC<AccessibleTextProps> = ({
   // פונקציה להחזרת קלאס הטקסט בהתאם לגודל
   const getTextSizeClass = () => {
     switch (size) {
+      case 'extaSmall':
+        return 'text-xs';
       case 'small':
         return 'text-sm';
       case 'medium':

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { View, Text, Animated } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useEffect } from 'react';
+import { Animated, Text, View } from 'react-native';
 
 const SplashScreen = () => {
   const fadeAnim = new Animated.Value(0);
@@ -33,8 +33,8 @@ const SplashScreen = () => {
         <View className="w-20 h-20 bg-white rounded-full mb-4 items-center justify-center">
           <MaterialCommunityIcons name="wallet-outline" size={36} color="#2196F3" />
         </View>
-        <Text className="text-white text-3xl font-bold ">ביטוח ישיר</Text>
-        <Text className="text-white text-base">הכל במקום אחד</Text>
+        <Text className="text-white text-3xl font-bold  items-center justify-center">ביטוח ישיר</Text>
+        <Text className="text-white text-base items-center justify-center">הכל במקום אחד</Text>
       </Animated.View>
     </View>
   );
