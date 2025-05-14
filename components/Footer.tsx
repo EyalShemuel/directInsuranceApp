@@ -41,13 +41,7 @@ const sendingMethodText = ['Email', 'Whatsapp', 'SMS'];
       {sendingMethodText.map((method, index) => (
         <View key={index} className='flex-row items-center'>
           <AccessibleButton 
-            title={method}
-            variant="text"
-            accessibilityHint={accessibilityHint}
-            disabled={disableTheConfirme}
-            className={method === 'SMS' ? 'p-0 min-h-0' : 'p-0 min-h-0'}
-            textClassName={method === 'SMS' ? 'font-bold text-primary-DEFAULT' : ''}
-            onPress={() => handlePressForMethod(method)}
+          
           />
           
           {/* מפריד בין האפשרויות - למעט האחרון */}
@@ -60,12 +54,7 @@ const sendingMethodText = ['Email', 'Whatsapp', 'SMS'];
 
     <View >
       <AccessibleButton
-        title="SMS-שלחו לי את הקוד ב"
-        variant="text"
-        accessibilityHint="לחץ כדי לשלוח את הקוד"
-        className='font-bold'
-        textClassName='text-primary-DEFAULT '
-        onPress={() => {}} // יש להוסיף פונקציית onPress מתאימה
+       
       />
     </View>
   </View>
