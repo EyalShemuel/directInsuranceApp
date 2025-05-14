@@ -4,19 +4,23 @@ import AccessibleButton from './AccsesibleButton'
 import AccsesibleText from './AccsesibleText'
 
 
-const Footer = () => {
+type FooterProps = {
+  onPress: () => void;
+};
+
+const Footer = ({ onPress }: FooterProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const [disableTheConfirme, setdisableTheConfirme] = useState(true)
   const [mainButtonName, setMainButtonName] = useState('שילחו לי את הקוד ב-')
   const [selectedMethod, setSelectedMethod] = useState('sms') // שיטת שליחה נוכחית
   type VariantType = 'background' | 'active' | 'transparent'
   const [variantMethodtype, setVariantMethodtype] = useState<VariantType>('background') // סוג הכפתור הנוכחי
-  const handlePress = () => {
+  /* const handlePress = () => {
     setIsLoading(true)
     setTimeout(() => {
       setIsLoading(false)
     }, 2000)
-  }
+  } */
   const handlePressForMethod = (method: string) => {
       // עדכון שיטת השליחה הנוכחית
       setSelectedMethod(method)
@@ -79,7 +83,8 @@ const Footer = () => {
           label={mainButtonName}
           variant='background'
           disabled={disableTheConfirme}
-          onPress={handlePress}
+          onPress={onPress}
+          
           accessibilityLabel={mainButtonName}
           accessibilityHint={`שלח לי את הקוד ב-${selectedMethod}`}
           textColor='#FFFFFF'

@@ -11,7 +11,7 @@ module.exports = {
           lighter: '#2E3B69',
           darker: '#101A40',
         },
-        secondary: {
+        error: {
           DEFAULT: '#E63A88', // ורוד/אדום שנראה בתמונות
         },
         accent: {
