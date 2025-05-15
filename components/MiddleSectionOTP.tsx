@@ -63,7 +63,7 @@ const MiddleSectionOTP = () => {
   
   return (
     <View className="flex-1 mt-10 self-center items-center">
-      <View className="flex-1 justify-between mb-8 mt-7">
+      <View className="flex-1 justify-between mb-8 mt-14">
         <AccessibleTextInput
           label="קוד אימות"
           required={true}
@@ -72,8 +72,7 @@ const MiddleSectionOTP = () => {
           labelClassName="text-text-secondary text-xxs mb-1.5 font-medium"
           inputClassName="text-text-secondary w-full border-b-2 border-text-secondary"
           onChange={(e) => setOtpCode(e.nativeEvent.text)}
-          value={otpCode}
-          placeholder="הקלד קוד אימות"
+          value={otpCode}          
           maxLength={6}
           keyboardType="numeric"
           onSubmitEditing={handleSubmitCode}
@@ -84,13 +83,16 @@ const MiddleSectionOTP = () => {
           text="לא הגיע?"
           type="normal" //link , text ,header ,error
           className="text-center justify-center self-center items-center"
+          size="extaSmall" //extaSmall ,small, medium, large, xlarge, xxlarge
         />
         <AccessibleButton
           onPress={resendCode}
-          label="שלח שוב את הקוד"
+          label="שלח לי שוב את הקוד בשנית"
           variant="transparent"
           //הלחצן צריך להיות שקוף והטקסט בצבע סגול
           className="text-accent-DEFAULT text-center mb-4"
+            textColor="#7C4DFF"
+          
         />
 
         {!isCodeValid && isCodeSent && otpCode.length === 6 && (

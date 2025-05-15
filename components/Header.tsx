@@ -1,9 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
+import AccessibleButton from './AccsesibleButton';
 import AccsesibleText from './AccsesibleText';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 type HeaderProps = {
   screenType: 'welcome' | 'otp';
+  setScreenType: React.Dispatch<React.SetStateAction<'welcome' | 'otp'>>;
+
   name: string;
 };
 
@@ -28,7 +32,7 @@ type HeaderProps = {
     );
   };
 
-const Header: React.FC<HeaderProps> = ({ screenType, name }) => {
+const Header: React.FC<HeaderProps> = ({ screenType, name, setScreenType}) => {
   return (
     <>
           <View className="mt-9 self-center items-center">
@@ -37,6 +41,21 @@ const Header: React.FC<HeaderProps> = ({ screenType, name }) => {
           </View>
             {screenType === 'otp' && (
               <>
+              {/* אייקון חץ ימינה  - הוספת כפתור חץ חזרה למסך הקודם */}
+               
+              <View className="absolute top-0 right-0 p-1 mr-2">
+                <AccessibleButton
+                  icon={<MaterialCommunityIcons name="arrow-right" size={24} color="#000" />}
+                  variant="transparent"
+                  onPress={() => {setScreenType('welcome')}}
+                  containerStyle={{ padding: 5 }}
+                  accessibilityLabel="חזור למסך הקודם"
+                  accessibilityHint="לחיצה על כפתור זה תחזיר אותך למסך הקודם"
+                  accessibilityRole="button"
+                />
+              </View>
+              
+          
                 {renderHeader(`הזינו את הקוד `,'large', 'bold')}
                 <View className="mt-3 self-center items-center">
 

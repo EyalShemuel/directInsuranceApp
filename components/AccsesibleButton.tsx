@@ -4,7 +4,10 @@ import { Pressable, Text, StyleSheet, PressableProps, TextStyle, ViewStyle,View 
 // הטיפוסים של הפרופס של הכפתור
 export interface AccessibleButtonProps extends PressableProps {
   // הטקסט של הכפתור
-  label: string;
+  label?: string;
+  
+  // אייקון שיוצג במקום או לצד הטקסט
+  icon?: React.ReactNode;
   
   // סוג הכפתור
   variant: 'background' | 'transparent' | 'active';
@@ -33,6 +36,7 @@ export interface AccessibleButtonProps extends PressableProps {
 
 export const AccessibleButton: React.FC<AccessibleButtonProps> = ({
   label,
+  icon,
   variant = 'background',
   disabled = false,
   containerStyle,
@@ -115,9 +119,13 @@ export const AccessibleButton: React.FC<AccessibleButtonProps> = ({
       accessibilityHint={accessibilityHint}
       {...restProps}
     >
-      <Text style={[getTextStyle(), textStyle]}>
-        {label}
-      </Text>
+      {icon ? (
+        icon
+      ) : (
+        <Text style={[getTextStyle(), textStyle]}>
+          {label}
+        </Text>
+      )}
     </Pressable>
     </View>
   );
