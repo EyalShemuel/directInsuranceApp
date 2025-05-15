@@ -2,12 +2,14 @@ import React from 'react';
 import { Modal, Text, TouchableOpacity, View } from 'react-native';
 
 interface PopupMessageProps {
+  text: string;
   visible: boolean;
   onConfirm: () => void;
   onClose: () => void;
 }
 
 const PopupMessage: React.FC<PopupMessageProps> = ({
+  text,
   visible,
   onConfirm,
   onClose
@@ -35,7 +37,7 @@ const PopupMessage: React.FC<PopupMessageProps> = ({
           
           {/* כותרת */}
           <Text className="text-indigo-900 text-2xl font-bold mb-10">
-            הקוד נשלח שוב
+           {text}
           </Text>
           
           {/* כפתור אישור */}
