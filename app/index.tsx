@@ -5,11 +5,16 @@ import * as Updates from 'expo-updates';
 import Onboarding from '../screens/Onboarding';
 import SplashScreen from '../screens/SplashScreen';
 
+
+
+
+
 export default function Index() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isFirstLaunch, setIsFirstLaunch] = useState(true);
-  I18nManager.forceRTL(true);
+
+  
 
   // וודא שהאפליקציה מוגדרת לתמיכה מלאה בעברית
   useEffect(() => {
@@ -31,10 +36,10 @@ export default function Index() {
   }, []);
 
   useEffect(() => {
-    
+    // סימולציה של טעינת האפליקציה
     const timer = setTimeout(() => {
       setIsLoading(false);
-      console.log('Loading complete');
+      // בפרויקט אמיתי היינו בודקים אם זו הפעלה ראשונה באמצעות AsyncStorage
     }, 2000);
 
     return () => clearTimeout(timer);
@@ -44,8 +49,9 @@ export default function Index() {
   useEffect(() => {
     if (!isLoading) {
       if (!isFirstLaunch) {
-        router.push('(auth)' as Href);
+          router.push("(auth)" as Href)
         console.log('Navigating to authScreen');
+       
       }
     }
   }, [isLoading, isFirstLaunch, router]);
