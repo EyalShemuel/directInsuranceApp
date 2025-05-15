@@ -5,6 +5,12 @@ import { Animated, Text, View } from 'react-native';
 const SplashScreen = () => {
   const fadeAnim = new Animated.Value(0);
   const scaleAnim = new Animated.Value(0.8);
+
+  useEffect(() => {
+  if (typeof document !== 'undefined') {
+    document.documentElement.lang = 'he';
+  }
+}, []);
   
   useEffect(() => {
     Animated.parallel([

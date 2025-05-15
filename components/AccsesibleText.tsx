@@ -1,38 +1,39 @@
 import React from 'react';
-import { PressableProps, Text, View } from 'react-native';
-// הגדרת הטיפוסים לפרופס של הטקסט
-export interface AccessibleTextProps extends PressableProps {
-  // הטקסט שיוצג
-  text: string;
-  // סוג הטקסט: לינק, שגיאה, כותרת או רגיל
-  type?: 'link' | 'error' | 'header' | 'normal';
-  //נתיב הקישור (אופציונלי)
-  linkPath?: string | null;
-  // גודל הטקסט: קטן, בינוני, גדול או ענק
-  size?: 'extaSmall'|'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge';
-  // הסטייל של הטקסט: רגיל, מודגש או נטוי
-  fontWeight?: 'normal' | 'bold' | 'italic';
-  // האם הטקסט מושבת
-  disabled?: boolean;
+import { Pressable, PressableProps, Text } from 'react-native';
 
-  // הודעת נגישות נוספת לקוראי מסך
+export interface AccessibleTextProps extends PressableProps {
+  text: string;
+  type?: 'link' | 'error' | 'header' | 'normal';
+  linkPath?: string | null;
+  size?: 'extraSmall' | 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge';
+  fontWeight?: 'normal' | 'bold' | 'italic';
+  disabled?: boolean;
+  
+  // מאפייני נגישות משופרים
+  accessibilityLabel?: string;
   accessibilityHint?: string;
+  isLiveRegion?: boolean;
+  textDirection?: 'rtl' | 'ltr' | 'auto';
 }
-const AccsesibleText: React.FC<AccessibleTextProps> = ({
+
+const AccessibleText: React.FC<AccessibleTextProps> = ({
   text,
-  type = 'normal', //link , text ,header ,error
-  size = 'medium', //extaSmall ,small, medium, large, xlarge, xxlarge
+  type = 'normal',
+  size = 'medium',
   linkPath = null,
-  fontWeight = 'normal', //normal, bold, italic
+  fontWeight = 'normal',
+  accessibilityLabel,
   accessibilityHint,
-  disabled = false, // true, false 
+  disabled = false,
+  isLiveRegion = false,
+  textDirection = 'auto',
   ...rest
 }: AccessibleTextProps) => {
   
   // פונקציה להחזרת קלאס הטקסט בהתאם לגודל
   const getTextSizeClass = () => {
     switch (size) {
-      case 'extaSmall':
+      case 'extraSmall':
         return 'text-xs';
       case 'small':
         return 'text-sm';
@@ -49,40 +50,61 @@ const AccsesibleText: React.FC<AccessibleTextProps> = ({
     }
   };
 
-  return (
-    <View className={rest.className} >
-      <Text
-        accessibilityRole={type === 'link' ? 'link' : type === 'error' ? 'alert' : type === 'header' ? 'header' : 'text'}
-        accessibilityHint={accessibilityHint}
-        accessibilityState={type === 'error' ? { disabled: true } : {}}
-        className={
-          `
-    ${getTextSizeClass()}
-    ${
-      fontWeight === 'normal'
-        ? 'font-normal'
-        : fontWeight === 'bold'
-        ? 'font-bold'
-        : 'font-italic'
-    }
-    ${
-      type === 'link'
-        ? 'text-accent-DEFAULT underline'
-        : type === 'error'
-        ? 'text-red-500'
-        : type === 'normal'
-        ? 'text-primary-DEFAULT'
-        : 'text-text-DEFAULT'
-    }
-    ${disabled ? 'opacity-50' : ''}
-   
-  ` || ''
-        }
-      >
-        {text}
-      </Text>
-    </View>
+  // הסרת props עם ערך null
+  const filteredRest = Object.fromEntries(
+    Object.entries(rest).filter(([_, v]) => v !== null)
   );
+
+  // בדיקה האם האלמנט אינטראקטיבי
+  const isInteractive = type === 'link' && linkPath;
+  
+  // הגדרת מצבי נגישות בהתאם לסוג האלמנט
+  const getAccessibilityState = () => {
+    const state: any = {};
+    if (disabled) state.disabled = true;
+    if (type === 'error') state.error = true;
+    return state;
+  };
+
+  // בניית הקומפוננטה בהתאם לסוג
+  const textElement = (
+    <Text
+      accessibilityRole={type === 'link' ? 'link' : type === 'header' ? 'header' : type === 'error' ? 'alert' : 'text'}
+      accessibilityLabel={accessibilityLabel || text}
+      accessibilityHint={accessibilityHint}
+      accessibilityState={getAccessibilityState()}
+      accessibilityLiveRegion={isLiveRegion ? 'polite' : 'none'}
+      
+      className={`
+        ${getTextSizeClass()}
+        ${fontWeight === 'normal' ? 'font-normal' : fontWeight === 'bold' ? 'font-bold' : 'font-italic'}
+        ${type === 'link' ? 'text-accent-DEFAULT underline' : 
+          type === 'error' ? 'text-red-500' : 
+          type === 'normal' ? 'text-primary-DEFAULT' : 'text-text-DEFAULT'}
+        ${disabled ? 'opacity-50' : ''}
+      ` || ''}
+      {...filteredRest}
+    >
+      {text}
+    </Text>
+  );
+
+  // עטיפת האלמנט ב-Pressable אם זה לינק אינטראקטיבי
+  if (isInteractive && !disabled) {
+    return (
+      <Pressable
+        accessibilityRole="link"
+        accessibilityLabel={accessibilityLabel || `קישור: ${text}`}
+        accessibilityHint={accessibilityHint}
+        disabled={disabled}
+        {...filteredRest}
+      >
+        {textElement}
+      </Pressable>
+    );
+  }
+
+  return textElement;
 };
 
-export default AccsesibleText;
+export default AccessibleText;

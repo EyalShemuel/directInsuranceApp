@@ -1,6 +1,8 @@
 import Checkbox from 'expo-checkbox';
+import { Image } from 'expo-image';
 import React from 'react';
-import { Image, View } from 'react-native';
+
+import { StyleSheet, View } from 'react-native';
 import AccessibleTextInput from './accessibleInput';
 import AccessibleButton from './AccsesibleButton';
 import AccsesibleText from './AccsesibleText';
@@ -22,17 +24,27 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({
     console.log('Sending code...');
   };
 
+  const blurhash =
+    '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+  const styles = StyleSheet.create({
+    image: {
+      width: '100%',
+      height: '100%',
+    },
+  });
   return (
     <>
-      <View className="flex-1 items-center justify-center">
+      <View className="flex-1 items-center justify-center mt-9">
         <Image
+          style={styles.image}
           source={require('@/assets/images/welcome.png')}
-          alt="ברוך הבא"
-          resizeMode="contain"
+          placeholder={{ blurhash }}
+          contentFit="contain"
+          transition={1000}
         />
       </View>
 
-      <View className="flex-row justify-between items-center mb-4">
+      <View className="flex-row justify-between items-center">
         <AccessibleTextInput
           label={`תעודת זהות/דרכון`}
           required={true}
@@ -44,42 +56,55 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({
         />
       </View>
 
-      <View className="flex-1 flex-row-reverse mb-4 items-center">
-        <Checkbox className="ml-2 mt-1" onValueChange={() => {}} />
-        <AccsesibleText
-          text="אישרתי את"
-          type="normal"
-          size="small"
-          fontWeight="normal"
-          accessibilityHint="אני מאשר/ת קבלת מידע פרסומי ממועדון ישיר"
-          disabled={false}
-        />
-        <AccessibleButton
-          onPress={() => {
-            console.log('תנאי שימוש');
-          }}
-          label="תנאי השימוש"
-          variant="transparent"
-          textColor="#7C4DFF"
-          containerStyle={{ margin: 0, padding: 0 }}
-        />
-        <AccsesibleText
-          text="ואת"
-          type="normal"
-          size="small"
-          fontWeight="normal"
-          accessibilityHint="אני מאשר/ת קבלת מידע פרסומי ממועדון ישיר"
-          disabled={false}
-        />
-        <AccessibleButton
-          onPress={() => {
-            console.log('מדיניות פרטיות');
-          }}
-          label="מדיניות הפרטיות"
-          variant="transparent"
-          textColor="#7C4DFF"
-          containerStyle={{ margin: 0, padding: 0 }}
-        />
+      <View className="flex flex-row items-center justify-end w-full">
+        <View className="flex flex-row items-center mb-7">
+          <AccessibleButton
+            onPress={() => {
+              console.log('מדיניות פרטיות');
+            }}
+            label="מדיניות הפרטיות"
+            variant="transparent"
+            textColor="#7C4DFF"
+            className="whitespace-nowrap flex-shrink-0"
+            containerStyle={{
+              margin: 0,
+              padding: 0,
+              
+            }}
+          />
+          <AccsesibleText
+            text="ואת"
+            type="normal"
+            size="small"
+            fontWeight="normal"
+            accessibilityHint="אני מאשר/ת קבלת מידע פרסומי ממועדון ישיר"
+            disabled={false}
+             className='flex-shrink-0 ml-1 mr-1'
+          />
+          <AccessibleButton
+            onPress={() => {
+              console.log('תנאי שימוש');
+            }}
+            label="תנאי השימוש"
+            variant="transparent"
+            textColor="#7C4DFF"
+            className="whitespace-nowrap flex-shrink-0"
+            containerStyle={{
+              margin: 0,
+              padding: 0,
+            }}
+          />
+          <AccsesibleText
+            text="אישרתי את"
+            type="normal"
+            size="small"
+            fontWeight="normal"
+            accessibilityHint="אני מאשר/ת קבלת מידע פרסומי ממועדון ישיר"
+            disabled={false}
+            className='flex-shrink-0 ml-1 mr-1'
+          />
+          <Checkbox className="ml-2" onValueChange={() => {}} />
+        </View>
       </View>
       <Footer onPress={onSendCode} />
     </>

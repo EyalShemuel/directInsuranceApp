@@ -4,6 +4,7 @@
     "slug": "directInsuranceApp",
     "version": "1.0.0",
     "orientation": "portrait",
+    "language": "heb",
     "icon": "./assets/images/icon.png",
     "scheme": "directinsuranceapp",
     "userInterfaceStyle": "automatic",

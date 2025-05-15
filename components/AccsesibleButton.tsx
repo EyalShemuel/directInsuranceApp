@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, Text, StyleSheet, PressableProps, TextStyle, ViewStyle,View } from 'react-native';
+import { Pressable, PressableProps, Text, TextStyle, View, ViewStyle } from 'react-native';
 
 // הטיפוסים של הפרופס של הכפתור
 export interface AccessibleButtonProps extends PressableProps {
@@ -107,7 +107,7 @@ export const AccessibleButton: React.FC<AccessibleButtonProps> = ({
   };
 
   return (
-    <View className="flex-1">
+    <View >
       <Pressable
       style={[getContainerStyle(), containerStyle]}
       onPress={onPress}

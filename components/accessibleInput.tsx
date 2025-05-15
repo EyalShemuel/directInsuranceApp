@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, TextInputProps, ViewStyle, TextStyle } from 'react-native';
+import { Text, TextInput, TextInputProps, TextStyle, View, ViewStyle } from 'react-native';
 
 // הטיפוסים של הפרופס של קומפוננטת הזנת הטקסט
 export interface AccessibleTextInputProps extends TextInputProps {
