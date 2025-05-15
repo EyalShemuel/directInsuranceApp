@@ -8,8 +8,14 @@
     "scheme": "directinsuranceapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "locales": {
+      "he": "./locales/he.json"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "CFBundleAllowMixedLocalizations": true
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +27,11 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "meta": {
+        "lang": "he",
+        "dir": "rtl"
+      }
     },
     "plugins": [
       "expo-router",

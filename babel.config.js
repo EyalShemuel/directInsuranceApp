@@ -7,6 +7,12 @@ module.exports = function (api) {
       ["babel-preset-expo", { jsxImportSource: "nativewind" }],
       "nativewind/babel",
     ],
-    plugins: ["expo-router/babel"],
+    plugins: [
+      ["module-resolver", {
+        alias: {
+          '@i18n': './i18n'
+        }
+      }]
+    ],
   };
 };

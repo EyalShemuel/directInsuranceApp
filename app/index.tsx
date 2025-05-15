@@ -1,6 +1,7 @@
 import { Href, Stack, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { I18nManager, SafeAreaView, Text, View } from 'react-native';
+import { I18nManager, SafeAreaView, Text, View, Platform, StyleSheet } from 'react-native';
+import * as Updates from 'expo-updates';
 import Onboarding from '../screens/Onboarding';
 import SplashScreen from '../screens/SplashScreen';
 
@@ -12,8 +13,20 @@ export default function Index() {
 
   // וודא שהאפליקציה מוגדרת לתמיכה מלאה בעברית
   useEffect(() => {
-    if (!I18nManager.isRTL) {
+    // בדיקה האם צריך לשנות את מצב ה-RTL
+    const isRTL = I18nManager.isRTL;
+    if (!isRTL) {
+      I18nManager.allowRTL(true);
       I18nManager.forceRTL(true);
+      
+      // אתחול מחדש של האפליקציה הכרחי כדי שה-RTL יעבוד כראוי
+      if (Platform.OS !== 'web') {
+        try {
+          Updates.reloadAsync();
+        } catch (error) {
+          console.error('Failed to reload the app:', error);
+        }
+      }
     }
   }, []);
 
@@ -49,8 +62,16 @@ export default function Index() {
     <SafeAreaView className="flex-1 bg-gray-light bg-background-DEFAULT">
       <Stack.Screen options={{ headerShown: false }} />
       <View className="flex-1 justify-center items-center">
-        <Text>טוען את האפליקציה...</Text>
+        <Text style={styles.rtlText}>טוען את האפליקציה...</Text>
       </View>
     </SafeAreaView>
   );
 }
+
+// הוספת סגנונות לתמיכה בעברית
+const styles = StyleSheet.create({
+  rtlText: {
+    writingDirection: 'rtl',
+    textAlign: 'right',
+  }
+});
