@@ -12,7 +12,6 @@ const MiddleSectionOTP = () => {
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [isCodeValid, setIsCodeValid] = useState(false);
   const [sentButtonDisabled, setSentButtonDisabled] = useState(true);
-  
 
   // בדיקת אורך הקוד והפעלת הכפתור
   useEffect(() => {
@@ -22,7 +21,6 @@ const MiddleSectionOTP = () => {
       setSentButtonDisabled(true);
     }
   }, [otpCode]);
-
 
   useEffect(() => {
     if (isCodeSent && otpCode.length === 6) {
@@ -37,7 +35,7 @@ const MiddleSectionOTP = () => {
         setPopupMessageText('הקוד שהזנת שגוי');
         setIsCodeValid(false);
         setShowPopup(true);
-      }    
+      }
       setIsCodeSent(false);
     }
   }, [isCodeSent, otpCode]);
@@ -45,14 +43,13 @@ const MiddleSectionOTP = () => {
   const closePopup = () => {
     setShowPopup(false);
   };
-  
+
   // שליחת קוד אימות מחדש
-  const resendCode = () => {  
+  const resendCode = () => {
     console.log('Resending OTP code');
     setPopupMessageText('קוד אימות חדש נשלח בהצלחה');
     setShowPopup(true);
   };
-  
 
   const handleSubmitCode = () => {
     if (!sentButtonDisabled) {
@@ -60,19 +57,19 @@ const MiddleSectionOTP = () => {
       setIsCodeSent(true);
     }
   };
-  
+
   return (
     <View className="flex-1 mt-10 self-center items-center">
       <View className="flex-1 justify-between mb-8 mt-14">
         <AccessibleTextInput
           label="קוד אימות"
           required={true}
-          errorMessage="קוד לא תקין"          
+          errorMessage="קוד לא תקין"
           className="w-1/2"
           labelClassName="text-text-secondary text-xxs mb-1.5 font-medium"
           inputClassName="text-text-secondary w-full border-b-2 border-text-secondary"
           onChange={(e) => setOtpCode(e.nativeEvent.text)}
-          value={otpCode}          
+          value={otpCode}
           maxLength={6}
           keyboardType="numeric"
           onSubmitEditing={handleSubmitCode}
@@ -89,10 +86,8 @@ const MiddleSectionOTP = () => {
           onPress={resendCode}
           label="שלח לי שוב את הקוד בשנית"
           variant="transparent"
-          //הלחצן צריך להיות שקוף והטקסט בצבע סגול
           className="text-accent-DEFAULT text-center mb-4"
-            textColor="#7C4DFF"
-          
+          textColor="#7C4DFF"
         />
 
         {!isCodeValid && isCodeSent && otpCode.length === 6 && (
@@ -104,9 +99,8 @@ const MiddleSectionOTP = () => {
         )}
       </View>
       <View style={{ width: '100%', alignItems: 'center' }}>
-
         {/* לחצן שלח  */}
-        <AccessibleButton         
+        <AccessibleButton
           onPress={handleSubmitCode}
           label="שלח"
           variant="background"
@@ -126,7 +120,7 @@ const MiddleSectionOTP = () => {
           textColor="#FFFFFF"
           activeColor="#388E3C"
         />
-      </View>      
+      </View>
       <PopupMessage
         text={popupMessageText}
         visible={showPopup}
@@ -136,6 +130,5 @@ const MiddleSectionOTP = () => {
     </View>
   );
 };
-
 
 export default MiddleSectionOTP;

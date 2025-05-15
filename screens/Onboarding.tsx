@@ -1,16 +1,14 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import {
-  FlatList,
-  I18nManager,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
+import React, { useState, useRef, useEffect } from 'react';
+import { 
+  View, 
+  Text, 
+  TouchableOpacity, 
+  FlatList, 
+  Dimensions,
   useWindowDimensions,
-  View
+  SafeAreaView
 } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -27,7 +25,6 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
   const { width } = useWindowDimensions();
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
-  const { t } = useTranslation(); // הוספת תמיכה בתרגום
   
   // נגדיר את המסכים - תיקנתי את שגיאות הכתיב
   const slides: OnboardingSlide[] = [
@@ -93,15 +90,15 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
   const renderSlide = ({ item }: { item: OnboardingSlide }) => (
     <View 
       className="justify-center items-center px-8" 
-      style={[{ width }, styles.slideContainer]}
+      style={{ width }}
     >
       <View 
         className="rounded-full p-5 bg-blue-50"
       >
         <MaterialCommunityIcons name={item.icon} size={120} color="#2196F3" />
       </View>
-      <Text style={styles.rtlText} className="text-2xl font-bold mt-8 mb-4 text-center">{item.title}</Text>
-      <Text style={styles.rtlText} className="text-base text-center text-gray-600">{item.description}</Text>
+      <Text className="text-2xl font-bold mt-8 mb-4 text-center">{item.title}</Text>
+      <Text className="text-base text-center text-gray-600">{item.description}</Text>
     </View>
   );
   
@@ -151,7 +148,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
               accessibilityLabel="התחל להשתמש באפליקציה"
               accessibilityRole="button"
             >
-              <Text style={styles.rtlText} className="text-white text-base font-bold text-center">בואו נתחיל!</Text>
+              <Text className="text-white text-base font-bold text-center">בואו נתחיל!</Text>
             </TouchableOpacity>
           ) : (
             <View className="flex-row">
@@ -162,7 +159,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
                 accessibilityLabel="דלג למסך הבית"
                 accessibilityRole="button"
               >
-                <Text style={styles.rtlText} className="text-gray-500 text-base font-medium">דלג</Text>
+                <Text className="text-gray-500 text-base font-medium">דלג</Text>
               </TouchableOpacity>
               
               <TouchableOpacity
@@ -172,7 +169,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
                 accessibilityLabel="המשך למסך הבא"
                 accessibilityRole="button"
               >
-                <Text style={styles.rtlText} className="text-white text-base font-bold">המשך</Text>
+                <Text className="text-white text-base font-bold">המשך</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -181,18 +178,6 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
     </SafeAreaView>
   );
 };
-
-// הוספת סגנונות בסוף הקובץ
-const styles = StyleSheet.create({
-  slideContainer: {
-    // הוספת תמיכה בכיוון RTL - שימוש ב-direction עבור View
-    direction: I18nManager.isRTL ? 'rtl' : 'ltr',
-  },
-  rtlText: {
-    writingDirection: 'rtl',
-    textAlign: 'right',
-  }
-});
 
 export default Onboarding;
 
