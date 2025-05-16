@@ -19,42 +19,41 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({
   setScreenType,
 }) => {
   type VariantType = 'background' | 'active' | 'transparent';
-  const [isError, setIsError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+
   const [disableTheConfirme, setdisableTheConfirme] = useState(true);
   const [mainButtonName, setMainButtonName] = useState('שילחו לי את הקוד ב-');
   const [selectedMethod, setSelectedMethod] = useState('sms'); // שיטת שליחה נוכחית
   const [showPopup, setShowPopup] = useState(false);
   const [idNumber, setIdNumber] = useState(''); // מספר תעודת זהות
-  const [variantMethodtype, setVariantMethodtype] = useState<VariantType>('background'); // סוג הכפתור הנוכחי
+  // const [variantMethodtype, setVariantMethodtype] = useState<VariantType>('background'); // סוג הכפתור הנוכחי
   const [isChecked, setIsChecked] = useState(false); // מצב הצ'קבוקס
   const [hasIdError, setHasIdError] = useState(false); // האם יש שגיאה בתעודת הזהות
   
   const sendingMethodText = ['Email', 'Whatsapp', 'SMS'];
+
+  const theCorectIdNumber = '123456789'; // מספר תעודת זהות תקין
+  const ERROR_MESSAGE = 'מספר תעודת זהות לא תקין - מספר תקין הוא 123456789';
   
   const closePopup = () => {
     setShowPopup(false);
   };
   
-  const handlePressForMethod = (method: string) => {
-    // עדכון שיטת השליחה הנוכחית
-    setSelectedMethod(method);
-    // עדכון הטקסט של הכפתור הראשי
-    setMainButtonName('שילחו לי את הקוד ב-' + method);
-    // שינוי המצב של הכפתור לפעיל
-    setVariantMethodtype('active');
+  // פונקציה לבחירת שיטת שליחה SMS, Email, Whatsapp
+  const handlePressForMethod = (method: string) => {  
+    setSelectedMethod(method);   
+    setMainButtonName('שילחו לי את הקוד ב-' + method);   
+    // setVariantMethodtype('active');
   };
 
   // בדיקת תקינות תעודת זהות
   const validateId = (id: string) => {
-    setIdNumber(id);
-    // בדיקה אם מספר תעודת הזהות שונה מ-123456789
-    setHasIdError(id !== '' && id !== '123456789');
+    setIdNumber(id);    
+    setHasIdError(id !== '' && id !== theCorectIdNumber);
   };
 
   useEffect(() => {
     // הפעלת כפתור שלח לי את הקוד אם הוזן מספר תעודת זהות תקין והצ'קבוקס מסומן
-    if (idNumber.length >= 9 && !hasIdError && isChecked) {
+    if (idNumber.length >= 9 &&  isChecked) {
       setdisableTheConfirme(false);
     } else {
       setdisableTheConfirme(true);
@@ -93,7 +92,7 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({
           label={`תעודת זהות/דרכון`}
           required={true}         
           onChange={(e) => validateId(e.nativeEvent.text)}
-          errorMessage={`מספר לא תקין - מספר תקין הוא 123456789`}
+          errorMessage={ERROR_MESSAGE}
           hasError={hasIdError}
           className="w-1/2"
           labelClassName="text-text-secondary text-xxs mb-1.5 font-medium"
@@ -165,7 +164,7 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({
             <AccessibleButton
               label={method}
               variant={method === selectedMethod ? 'active' : 'transparent'}
-              disabled={isLoading}
+              
               onPress={() => handlePressForMethod(method)}
               accessibilityLabel={`בחר ${method}`}
               accessibilityHint={`שלח לי את הקוד ב-${method}`}
