@@ -1,6 +1,7 @@
+import AccessibleText from '@/components/AccsesibleText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useEffect } from 'react';
-import { Animated, Text, View } from 'react-native';
+import { Animated, View } from 'react-native';
 
 const SplashScreen = () => {
   const fadeAnim = new Animated.Value(0);
@@ -28,19 +29,47 @@ const SplashScreen = () => {
   }, []);
   
   return (
-    <View className="flex-1 bg-blue-500 justify-center items-center">
+   <View className="flex-1 w-full bg-blue-500 justify-center items-center">
       <Animated.View
         style={{
           opacity: fadeAnim,
-          transform: [{ scale: scaleAnim }]
+          transform: [{ scale: scaleAnim }],
         }}
-        className="items-center"
+        className="items-center justify-center"
       >
-        <View className="w-20 h-20 bg-white rounded-full mb-4 items-center justify-center">
-          <MaterialCommunityIcons name="wallet-outline" size={36} color="#2196F3" />
+        {/* עטיפה חיצונית לאייקון עם מיקום מדויק */}
+        <View className="w-20 h-20 bg-white rounded-full mb-4  items-center justify-center ml-8">
+          
+            <MaterialCommunityIcons
+              name="wallet-outline"
+              size={36}
+              color="#2196F3"
+              style={{ textAlign: 'center' }}
+            />
+       
         </View>
-        <Text className="text-white text-3xl font-bold  items-center justify-center">ביטוח ישיר</Text>
-        <Text className="text-white text-base items-center justify-center">הכל במקום אחד</Text>
+
+        <View className="flex items-center justify-center">
+
+
+        <AccessibleText
+          text="ביטוח ישיר"
+          type="header"          
+          fontWeight="bold"
+          accessibilityLabel="ביטוח ישיר"
+          accessibilityHint="הכל במקום אחד"
+          className="text-white text-3xl font-bold mb-2 text-center text-justify-center"
+        />
+        <AccessibleText
+          text="הכל במקום אחד"
+          type="text"
+         
+          fontWeight="normal"
+          accessibilityLabel="הכל במקום אחד"
+          accessibilityHint="הכל במקום אחד"
+          className="text-white text-base text-center"
+        />
+        </View>
       </Animated.View>
     </View>
   );

@@ -129,7 +129,7 @@ const MiddleSectionOTP = () => {
         <View className="mt-6 mb-2">
           <AccsesibleText
             text="לא הגיע?"
-            type="normal"
+            type="text"
             className="text-center justify-center self-center items-center"
             size="extraSmall"
             accessibilityLabel="האם לא קיבלת את קוד האימות?"
@@ -185,8 +185,9 @@ const MiddleSectionOTP = () => {
         />
       </View>
       
-      {/* פופאפ הודעות - הסרת מאפיינים שאינם נתמכים */}
+     
       <PopupMessage
+        header={isCodeValid ? 'הצלחה!' : 'שגיאה!'}
         text={popupMessageText}
         visible={showPopup}
         onConfirm={closePopup}

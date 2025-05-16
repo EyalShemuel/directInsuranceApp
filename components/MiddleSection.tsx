@@ -2,7 +2,7 @@ import Checkbox from 'expo-checkbox';
 import { Image } from 'expo-image';
 import React from 'react';
 
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import AccessibleTextInput from './accessibleInput';
 import AccessibleButton from './AccsesibleButton';
 import AccsesibleText from './AccsesibleText';
@@ -24,21 +24,13 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({
     console.log('Sending code...');
   };
 
-  const blurhash =
-    '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
-  const styles = StyleSheet.create({
-    image: {
-      width: '100%',
-      height: '100%',
-    },
-  });
+   
   return (
     <>
       <View className="flex-1 items-center justify-center mt-9">
         <Image
-          style={styles.image}
-          source={require('@/assets/images/welcome.png')}
-          placeholder={{ blurhash }}
+          className="w-full h-full"
+          source={require('@/assets/images/welcome.png')}          
           contentFit="contain"
           transition={1000}
         />
@@ -74,7 +66,7 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({
           />
           <AccsesibleText
             text="ואת"
-            type="normal"
+            type="text"
             size="small"
             fontWeight="normal"
             accessibilityHint="אני מאשר/ת קבלת מידע פרסומי ממועדון ישיר"
@@ -96,7 +88,7 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({
           />
           <AccsesibleText
             text="אישרתי את"
-            type="normal"
+            type="text"
             size="small"
             fontWeight="normal"
             accessibilityHint="אני מאשר/ת קבלת מידע פרסומי ממועדון ישיר"

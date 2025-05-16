@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { 
-  View, 
-  Text, 
-  TouchableOpacity, 
-  FlatList, 
-  Dimensions,
-  useWindowDimensions,
-  SafeAreaView
-} from 'react-native';
+import AccessibleText from '@/components/AccsesibleText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useRef, useState } from 'react';
+import {
+  FlatList,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View
+} from 'react-native';
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -89,7 +89,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
   // רינדור של שקופית יחידה
   const renderSlide = ({ item }: { item: OnboardingSlide }) => (
     <View 
-      className="justify-center items-center px-8" 
+      className="justify-center items-center px-8 mt-12 " 
       style={{ width }}
     >
       <View 
@@ -97,8 +97,25 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
       >
         <MaterialCommunityIcons name={item.icon} size={120} color="#2196F3" />
       </View>
-      <Text className="text-2xl font-bold mt-8 mb-4 text-center">{item.title}</Text>
-      <Text className="text-base text-center text-gray-600">{item.description}</Text>
+      <AccessibleText
+        text={item.title}
+        type="header"
+        size="large"
+        fontWeight="bold"
+        accessibilityLabel={item.title}
+        accessibilityHint={item.description}
+        className="text-DEFAULT-500 text-3xl font-bold mt-8 mb-4 text-center"
+      />
+      <AccessibleText
+        text={item.description}
+        type="text"
+        size="medium"
+        fontWeight="normal"
+        accessibilityLabel={item.description}
+        accessibilityHint={item.description}
+        className="text-gray-600 text-base text-center" 
+      />
+
     </View>
   );
   
