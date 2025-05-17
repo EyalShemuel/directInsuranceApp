@@ -7,6 +7,16 @@ The application was built in React Native with EXPO and NativeWind while maintai
 
 Making it accessible required changing the color of a checkbox, expanding buttons for easier touch, adding ALT to images, using buttons and text customized for accessibility, and more...
 
+## There is documentation in DOC folder that include screenshots and App Accessibility Survey
+
+
+## Problems I encountered and solved using help, suggestions, or debugging of artificial intelligence
+1. Adding the same RTL on mobile and WEB
+2. Adding TITLE to all pages
+3. Adding a label to a checkbox
+
+## The app simulates the entire login and connection process, including error messages and success messages.
+
 ## Get started
 
 1. clone the rposetory and do to the riposetory derectory
@@ -23,7 +33,7 @@ Making it accessible required changing the color of a checkbox, expanding button
 
 
 
-Troubleshooting
+## Troubleshooting
 
 you may need to install - lightningcss-win32-x64-msvc
    by: npm i lightningcss-win32-x64-msvc
