@@ -125,7 +125,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
   const renderSlide = ({ item }: { item: OnboardingSlide }) => (
     <View className="justify-center items-center px-8 mt-12 " style={{ width }}>
       <View className="rounded-full p-5 bg-blue-50">
-        <MaterialCommunityIcons name={item.icon} size={120} color="#2196F3" />
+        <MaterialCommunityIcons name={item.icon} size={120} color="#1E3A8A" />
       </View>
       <AccessibleText
         text={item.title}

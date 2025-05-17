@@ -66,22 +66,32 @@ const AccessibleCheckbox = ({
   };
   
   // רינדור קטעי טקסט וקישורים
-  const renderLabel = () => label.map((segment, i) => {
-    if (segment.type === 'link') {
-      return (
-        <AccsesibleText
-          key={i}
-          text={segment.text}
-          type="link"
-          linkPath={segment.url}
-          accessibilityRole="link"
-          accessibilityHint={`פתיחת קישור ל: ${segment.url}`}
-          className="mx-1 text-xs text-accent"
-        />
-      );
-    }
-    return <AccsesibleText key={i} text={segment.text} type="text" className='text-xs' />;
-  });
+  // בקובץ AccessibleCheckbox.tsx
+const renderLabel = () => label.map((segment, i) => {
+  if (segment.type === 'link') {
+    return (
+      <AccsesibleText
+        key={i}
+        text={segment.text}
+        type="link"
+        size="extraSmall" // מגדיר גודל באופן מפורש
+        linkPath={segment.url}
+        accessibilityRole="link"
+        accessibilityHint={`פתיחת קישור ל: ${segment.url}`}
+        className="text-accent text-xs" // הסרתי את text-xs כדי למנוע סתירה
+      />
+    );
+  }
+  return (
+    <AccsesibleText 
+      key={i} 
+      text={segment.text} 
+      type="text" 
+      size="extraSmall" // מגדיר גודל זהה לקישורים
+      className="text-xs" // מוסיף מרווחים זהים לאלו של הקישורים
+    />
+  );
+});
   
   return (
     <View testID={testID} className="mb-4">
@@ -100,7 +110,7 @@ const AccessibleCheckbox = ({
           <View
             className={`w-6 h-6 ${isRtl ? 'ml-2' : 'mr-2'} rounded border-2 ${
               checked 
-                ? 'bg-blue-600 border-blue-600' 
+                ? 'bg-accent border-accent' 
                 : error 
                 ? 'bg-white text-error' 
                 : 'bg-white border-gray-500'
@@ -111,7 +121,7 @@ const AccessibleCheckbox = ({
                 text="✓"
                 fontWeight="bold"
                 size="medium"
-                className="text-white"
+                className="text-white text-center"
                 accessibilityLabel="סימן וי המציין שהתיבה מסומנת"
               />
             )}
@@ -157,7 +167,8 @@ const AccessibleCheckbox = ({
             text={description}
             size="small"
             type="text"
-            className="text-gray-500"
+            className="text-gray-500 mx-1 text-xs"
+            
           />
         </View>
       )}

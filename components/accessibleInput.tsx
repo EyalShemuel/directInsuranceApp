@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, TextInput, TextInputProps, TextStyle, View, ViewStyle } from 'react-native';
+import { TextInput, TextInputProps, TextStyle, View, ViewStyle } from 'react-native';
+import AccsesibleText from './AccsesibleText';
 
 // הטיפוסים של הפרופס של קומפוננטת הזנת הטקסט
 export interface AccessibleTextInputProps extends TextInputProps {
@@ -79,73 +80,99 @@ export const AccessibleTextInput: React.FC<AccessibleTextInputProps> = ({
   // בדיקה אם שדה זה במצב שגיאה
   const isInErrorState = hasError && errorMessage;
   
+  // בדיקת מצב RTL באפליקציה - יש כבר הגדרה גלובלית בפרויקט שלך
+  const rtlEnabled = true; // תמיד נשתמש ב-RTL מאחר שהאפליקציה כבר מוגדרת כ-RTL גלובלית
+  
   // טקסט לקורא מסך בעת מיקוד
   const accessibilityLabelText = accessibilityLabel || `${label}${required ? ', שדה חובה' : ''}`;
   
-  // טקסט לקורא מסך עבור תיאור השגיאה (אם יש)
-  const accessibilityErrorText = accessibilityError || errorMessage;
-
   // סטיילים בסיסיים עם נייטיב ווינד
   const containerClasses = `mb-4 w-full ${className}`;
-  const labelClasses = `text-sm mb-1.5 font-medium ${labelClassName}`;
-  const inputClasses = `h-10 border-0 border-b ${isInErrorState ? 'border-b-2 border-red-600' : 'border-gray-300'} px-2 text-base ${inputClassName}`;
-  const errorClasses = `text-xs mt-1 text-red-600 ${errorClassName}`;
+  
+  // הכנסת הצבע לתוך מחלקות tailwind אם אפשר, אחרת נשתמש ב-style
+  let labelColorClass = '';
+  if (labelColor) {
+    // בדיקה אם יש צבע מוגדר מראש ב-tailwind
+    if (labelColor.startsWith('#')) {
+      // אם זה צבע הקסדצימלי, נצטרך להשתמש ב-style
+    } else {
+      // אחרת ננסה להשתמש במחלקת צבע של tailwind
+      labelColorClass = `text-${labelColor}`;
+    }
+  }
+  
+  
+  // בדיקה אם יש צבעים שאפשר להוסיף כמחלקות
+  let textColorClass = '';
+  let bgColorClass = '';
+  let borderColorClass = '';
+  
+  if (textColor) {
+    if (!textColor.startsWith('#')) {
+      textColorClass = `text-${textColor}`;
+    }
+  }
+  
+  if (backgroundColor) {
+    if (!backgroundColor.startsWith('#')) {
+      bgColorClass = `bg-${backgroundColor}`;
+    }
+  }
+  
+  if (borderColor && !isInErrorState) {
+    if (!borderColor.startsWith('#')) {
+      borderColorClass = `border-${borderColor}`;
+    }
+  }
 
-  return (
-    <View 
-      style={containerStyle}
-      className={containerClasses}
-      accessible={false}
-    >
-      {/* תווית השדה */}
-      <Text
-        style={[
-          labelColor ? { color: labelColor } : null,
-          labelStyle
-        ]}
-        className={labelClasses}
-        nativeID={`label-${inputId}`}
-        accessibilityRole="text"
-      >
-        {label}
-        {required && <Text style={{ color: errorColor }}>{requiredIndicator}</Text>}
-      </Text>
-      
-      {/* שדה הקלט עצמו */}
-      <TextInput
-        style={[
-          textColor ? { color: textColor } : null,
-          backgroundColor ? { backgroundColor } : null,
-          borderColor && !isInErrorState ? { borderBottomColor: borderColor } : null,
-          inputStyle
-        ]}
-        className={inputClasses}
-        placeholderTextColor={placeholderColor}
-        accessible={true}
-        accessibilityLabel={accessibilityLabelText}
-        accessibilityHint={accessibilityHint}
-        accessibilityState={{ 
-          disabled: restProps.editable === false
-        }}
-        aria-invalid={isInErrorState}
-        accessibilityLabelledBy={`label-${inputId}`}
-        accessibilityRole="text"
-        {...restProps}
+return (
+  <View 
+    style={containerStyle}
+    className={containerClasses}
+    accessible={false}
+  >
+    {/* תווית השדה - פתרון מפושט יותר */}
+    <AccsesibleText
+      text={required ? `${label} *` : label}
+      type="text"
+      className={`text-sm text-right w-full mb-1 ${labelColorClass} ${labelClassName}`}
+      accessibilityLabel={`התווית ${label}${required ? ', שדה חובה' : ''}`}
+      accessibilityRole="text"
+      size="medium"
+      fontWeight="normal"
+    />
+    
+    {/* שדה הקלט עצמו */}
+    <TextInput        
+      className={`h-12 border-0 border-b ${isInErrorState ? 'border-b-2 border-red-600' : borderColorClass || 'border-gray-300'} ${textColorClass} ${bgColorClass} text-base text-right ${inputClassName}`}
+      placeholderTextColor={placeholderColor}
+      accessible={true}
+      accessibilityLabel={accessibilityLabelText}
+      accessibilityHint={accessibilityHint}
+      accessibilityState={{ 
+        disabled: restProps.editable === false
+      }}
+      aria-invalid={isInErrorState}
+      accessibilityLabelledBy={`label-${inputId}`}
+      accessibilityRole="text"
+      style={{ textAlign: 'right' }} 
+      {...restProps}
+    />
+    
+    {/* הודעת שגיאה (אם יש) */}
+    {isInErrorState && (
+      <AccsesibleText
+        text={errorMessage}
+        type="error"
+        className={`text-xs mt-1 text-red-600 text-right ${errorClassName}`}
+        accessibilityLabel={`שגיאה: ${errorMessage}`}
+        isLiveRegion={true}
+        accessibilityRole="alert"
       />
-      
-      {/* הודעת שגיאה (אם יש) */}
-      {isInErrorState && (
-        <Text
-          style={errorStyle}
-          className={errorClasses}
-          accessibilityLiveRegion="polite"
-          accessibilityRole="alert"
-        >
-          {errorMessage}
-        </Text>
-      )}
-    </View>
-  );
+    )}
+  </View>
+);
 };
 
 export default AccessibleTextInput;
+

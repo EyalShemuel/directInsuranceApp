@@ -1,6 +1,5 @@
-import { Image } from 'expo-image';
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Image as RNImage, Text, View } from 'react-native';
 import AccessibleCheckbox from './AccessibleCheckbox';
 import AccessibleTextInput from './accessibleInput';
 import AccessibleButton from './AccsesibleButton';
@@ -70,25 +69,26 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({ setScreenType }) => {
 
   return (
     <>
-      <View className="flex-1 items-center justify-center mt-9">
-        <Image
-          className="w-full h-64"
-          source={require('@/assets/images/welcome.png')}
-          contentFit="contain"
-          transition={1000}
+      <View className="flex-1 items-center justify-center mt-1">
+       
+        <RNImage
+          style={{ width: '100%', height: 256, resizeMode: 'contain' }}
+          source={require('../assets/images/welcome.png')}
           accessibilityLabel="תמונה של אישה מחייכת"
         />
+        
+       
       </View>
 
-      <View className="flex-row justify-between items-center">
+      <View className="w-full items-center">
         <AccessibleTextInput
           label={`תעודת זהות/דרכון`}
           required={true}
           onChange={(e) => validateId(e.nativeEvent.text)}
           errorMessage={ERROR_MESSAGE}
           hasError={hasIdError}
-          className="w-1/2"
-          labelClassName="text-text-secondary text-xxs mb-1.5 font-medium"
+          className="w-full  "
+          labelClassName="text-text-secondary mb-3 font-medium text-right"
           inputClassName="text-text-secondary w-full border-b-2 border-text-secondary"
         />
       </View>
@@ -113,7 +113,7 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({ setScreenType }) => {
         accessibilityLabel="אישור תנאי השימוש ומדיניות הפרטיות"
         required={true}
       />
-      <View>
+      <View className="items-center justify-center mt-4">
         {/* אפשרויות השליחה */}
         <AccsesibleText
           text="שלח לי את הקוד ב-"
@@ -156,12 +156,13 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({ setScreenType }) => {
             accessibilityHint={`שלח לי את הקוד ב-${selectedMethod}`}
             textColor="#FFFFFF"
             activeColor="#388E3C"
+            className='text-center'
             containerStyle={{
-              marginTop: 20,
+              marginTop: 40,
               marginBottom: 20,
               borderRadius: 25,
               width: 250,
-              height: 40,
+              height: 50,
               justifyContent: 'center',
               alignSelf: 'center',
             }}

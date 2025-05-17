@@ -34,7 +34,7 @@ export interface AccessibleTextProps extends Omit<PressableProps, 'accessibility
 const AccessibleText: React.FC<AccessibleTextProps> = ({
   text,
   type = 'text',
-  size = 'medium',
+  size = 'small', // שינוי ברירת המחדל מ-'medium' ל-'small' (יתאים ל-text-xs)
   linkPath = null,
   fontWeight = 'normal',
   accessibilityLabel,

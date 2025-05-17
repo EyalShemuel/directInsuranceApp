@@ -39,7 +39,7 @@ const SplashScreen = () => {
             <MaterialCommunityIcons
               name="wallet-outline"
               size={36}
-              color="#2196F3"
+              color="#1E3A8A"
               style={{ textAlign: 'center' }}
             />
        

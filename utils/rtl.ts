@@ -8,12 +8,16 @@ export const setupRTL = () => {
   // הפעלת RTL בגרסאות המובייל
   if (Platform.OS !== 'web') {
     console.log('Setting up RTL for mobile...');
-    // בדיקה אם RTL כבר מופעל
-    if (!I18nManager.isRTL) {
+    try {
       I18nManager.allowRTL(true);
       I18nManager.forceRTL(true);
       console.log('RTL forced for mobile');
+    } catch (error) {
+      console.error('Error setting up RTL:', error);
     }
+    
+    // נרשום את מצב ה-RTL לצורכי דיבוג
+    console.log('האם במצב RTL:', I18nManager.isRTL);
   } 
   // הפעלת RTL בגרסת הווב 
   else if (Platform.OS === 'web') {
@@ -24,9 +28,18 @@ export const setupRTL = () => {
       // הוספת סגנון גלובלי להיפוך תצוגת טקסט
       const style = document.createElement('style');
       style.textContent = `
-        body {
+        html, body {
           direction: rtl !important;
+        }
+        body, div, p, input, textarea, select, button, label {
           text-align: right !important;
+        }
+        /* טיפול ספציפי בתוויות של שדות קלט */
+        label, .label, [role="text"] {
+          display: block !important;
+          text-align: right !important;
+          direction: rtl !important;
+          width: 100% !important;
         }
       `;
       document.head.appendChild(style);

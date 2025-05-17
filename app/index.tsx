@@ -4,6 +4,7 @@ import { SafeAreaView, Text, View } from 'react-native';
 import Onboarding from '../screens/Onboarding';
 import SplashScreen from '../screens/SplashScreen';
 import { isRTL } from '../utils/rtl';
+import { setPageTitle } from '../utils/accessibility/setPageTitle';
 
 export default function Index() {
   const router = useRouter();
@@ -22,6 +23,17 @@ export default function Index() {
     return () => clearTimeout(timer);
   }, []);
 
+  // הגדרת כותרת הדף במצב טעינה
+  useEffect(() => {
+    if (isLoading) {
+      setPageTitle('טעינה | ביטוח ישיר');
+    } else if (isFirstLaunch) {
+      setPageTitle('ברוך הבא | ביטוח ישיר');
+    } else {
+      setPageTitle('ביטוח ישיר');
+    }
+  }, [isLoading, isFirstLaunch]);
+
   // ניהול ניווט לפי מצב הטעינה והפעלה ראשונה
   useEffect(() => {
     if (!isLoading) {
@@ -33,16 +45,35 @@ export default function Index() {
   }, [isLoading, isFirstLaunch, router]);
 
   if (isLoading) {
-    return <SplashScreen />;
+    return (
+      <>
+        <Stack.Screen options={{ 
+          title: "טעינה | ביטוח ישיר",
+          headerShown: false
+        }} />
+        <SplashScreen />
+      </>
+    );
   }
 
   if (isFirstLaunch) {
-    return <Onboarding onComplete={() => setIsFirstLaunch(false)} />;
+    return (
+      <>
+        <Stack.Screen options={{ 
+          title: "ברוך הבא | ביטוח ישיר",
+          headerShown: false
+        }} />
+        <Onboarding onComplete={() => setIsFirstLaunch(false)} />
+      </>
+    );
   }
 
   return (
     <SafeAreaView className="flex-1 bg-gray-light bg-background-DEFAULT">
-      <Stack.Screen options={{ headerShown: false }} />
+      <Stack.Screen options={{ 
+        headerShown: false, 
+        title: "ביטוח ישיר"
+      }} />
       <View className="flex-1 justify-center items-center">
         <Text>טוען את האפליקציה...</Text>
       </View>

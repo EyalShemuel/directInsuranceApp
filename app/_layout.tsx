@@ -17,6 +17,8 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerShown: false,
+          // הוספת כותרת ברירת מחדל לאפליקציה שתופיע לטכנולוגיות מסייעות
+          title: "ביטוח ישיר",
         }}
       />
     </>
