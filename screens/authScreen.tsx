@@ -16,7 +16,7 @@ const authScreen = ({ name = 'בוריס' }) => {
       />
       {/* אם Welcom אז MiddleSection אחרת MiddleSectionOTP */}
       {screenType === 'welcome' ? (
-        <MiddleSection screenType={screenType} setScreenType={setScreenType} />
+        <MiddleSection  setScreenType={setScreenType} />
       ) : (
         <MiddleSectionOTP />
       )}
