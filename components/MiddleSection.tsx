@@ -72,7 +72,7 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({ setScreenType }) => {
     <>
       <View className="flex-1 items-center justify-center mt-9">
         <Image
-          className="w-full h-full"
+          className="w-full h-64"
           source={require('@/assets/images/welcome.png')}
           contentFit="contain"
           transition={1000}

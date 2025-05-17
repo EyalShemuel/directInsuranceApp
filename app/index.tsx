@@ -1,27 +1,22 @@
 import { Href, Stack, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { I18nManager, SafeAreaView, Text, View } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import Onboarding from '../screens/Onboarding';
 import SplashScreen from '../screens/SplashScreen';
+import { isRTL } from '../utils/rtl';
 
 export default function Index() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isFirstLaunch, setIsFirstLaunch] = useState(true);
-  I18nManager.forceRTL(true);
 
-  // וודא שהאפליקציה מוגדרת לתמיכה מלאה בעברית
-  useEffect(() => {
-    if (!I18nManager.isRTL) {
-      I18nManager.forceRTL(true);
-    }
-  }, []);
+  // וודא שהמערכת מזהה שאנחנו במצב RTL
+  console.log('האם במצב RTL:', isRTL());
 
   useEffect(() => {
-    
     const timer = setTimeout(() => {
       setIsLoading(false);
-      console.log('Loading complete');
+      console.log('הטעינה הסתיימה');
     }, 2000);
 
     return () => clearTimeout(timer);
@@ -32,7 +27,7 @@ export default function Index() {
     if (!isLoading) {
       if (!isFirstLaunch) {
         router.push('(auth)' as Href);
-        console.log('Navigating to authScreen');
+        console.log('מעביר ל-(auth)');
       }
     }
   }, [isLoading, isFirstLaunch, router]);

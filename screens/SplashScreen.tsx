@@ -7,11 +7,7 @@ const SplashScreen = () => {
   const fadeAnim = new Animated.Value(0);
   const scaleAnim = new Animated.Value(0.8);
 
-  useEffect(() => {
-  if (typeof document !== 'undefined') {
-    document.documentElement.lang = 'he';
-  }
-}, []);
+
   
   useEffect(() => {
     Animated.parallel([
@@ -29,7 +25,7 @@ const SplashScreen = () => {
   }, []);
   
   return (
-   <View className="flex-1 w-full bg-blue-500 justify-center items-center">
+   <View className="flex-1 w-full bg-blue-900 justify-center items-center">
       <Animated.View
         style={{
           opacity: fadeAnim,
@@ -38,7 +34,7 @@ const SplashScreen = () => {
         className="items-center justify-center"
       >
         {/* עטיפה חיצונית לאייקון עם מיקום מדויק */}
-        <View className="w-20 h-20 bg-white rounded-full mb-4  items-center justify-center ml-8">
+        <View className="w-20 h-20 bg-white rounded-full mb-4  items-center justify-center ">
           
             <MaterialCommunityIcons
               name="wallet-outline"

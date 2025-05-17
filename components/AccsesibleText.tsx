@@ -1,8 +1,5 @@
 import React from 'react';
-import { AccessibilityRole, Pressable, PressableProps, Text } from 'react-native';
-
-// הרחבת הטיפוס AccessibilityRole כדי לכלול גם את הערך "paragraph"
-type ExtendedAccessibilityRole = AccessibilityRole | 'paragraph';
+import { AccessibilityRole, Platform, Pressable, PressableProps, Text } from 'react-native';
 
 export interface AccessibleTextProps extends Omit<PressableProps, 'accessibilityRole'> {
   // מאפייני טקסט
@@ -20,7 +17,7 @@ export interface AccessibleTextProps extends Omit<PressableProps, 'accessibility
   textDirection?: 'rtl' | 'ltr' | 'auto';
   
   // מאפייני WAI-ARIA נוספים
-  accessibilityRole?: ExtendedAccessibilityRole;
+  accessibilityRole?: AccessibilityRole;
   ariaLevel?: number;
   ariaChecked?: boolean | 'mixed';
   ariaExpanded?: boolean;  
@@ -82,11 +79,21 @@ const AccessibleText: React.FC<AccessibleTextProps> = ({
     }
   };
 
+  // פונקציה להחזרת סגנון טקסט בהתאם לסוג
+  const getTextTypeClass = () => {
+    switch(type) {
+      case 'link': return 'text-accent-DEFAULT underline';
+      case 'error': return 'text-red-500';
+      case 'text': return 'text-primary-DEFAULT';
+      default: return 'text-text-DEFAULT';
+    }
+  };
+
   // הסרת props עם ערך null
   const filteredRest = Object.fromEntries(
     Object.entries(rest).filter(([_, v]) => v !== null)
   );
-
+  
   // בדיקה האם האלמנט אינטראקטיבי
   const isInteractive = type === 'link' && linkPath;
   
@@ -103,14 +110,18 @@ const AccessibleText: React.FC<AccessibleTextProps> = ({
   };
 
   // קביעת תפקיד נגישות בהתאם לסוג או תפקיד שסופק
-  const getAccessibilityRole = (): ExtendedAccessibilityRole | undefined => {
+  const getAccessibilityRole = (): AccessibilityRole | undefined => {
+    // אם סופק תפקיד נגישות, השתמש בו (כל עוד הוא מוכר)
     if (accessibilityRole) return accessibilityRole;
     
+    // תפקידי נגישות לפי סוג
     switch (type) {
       case 'link': return 'link';
       case 'header': return 'header';
       case 'error': return 'alert';
-      case 'text': return 'paragraph'; // שימוש ב-paragraph עבור טקסט רגיל
+      case 'text': 
+        // עבור טקסט רגיל, השתמש בתפקיד 'text' במובייל
+        return 'text';
       default: return 'text';
     }
   };
@@ -131,14 +142,10 @@ const AccessibleText: React.FC<AccessibleTextProps> = ({
       aria-hidden={ariaHidden}
       aria-describedby={ariaDescribedBy}
       aria-labelledby={ariaLabelledBy}
-     
-      
       className={`
         ${getTextSizeClass()}
         ${fontWeight === 'normal' ? 'font-normal' : fontWeight === 'bold' ? 'font-bold' : 'font-italic'}
-        ${type === 'link' ? 'text-accent-DEFAULT underline' : 
-          type === 'error' ? 'text-red-500' : 
-          type === 'text' ? 'text-primary-DEFAULT' : 'text-text-DEFAULT'}
+        ${getTextTypeClass()}
         ${disabled ? 'opacity-50' : ''}
       ` || ''}
       {...filteredRest}
@@ -165,6 +172,39 @@ const AccessibleText: React.FC<AccessibleTextProps> = ({
       >
         {textElement}
       </Pressable>
+    );
+  }
+
+  // אם זו פלטפורמת ווב ואנחנו בטקסט רגיל - הוסף מאפיין role="paragraph" ב-web
+  if (Platform.OS === 'web' && type === 'text') {
+    return (
+      <Text
+        {...filteredRest}
+        accessibilityRole={getAccessibilityRole() as AccessibilityRole}
+        accessibilityLabel={accessibilityLabel || text}
+        accessibilityHint={accessibilityHint}
+        accessibilityState={getAccessibilityState()}
+        accessibilityLiveRegion={isLiveRegion ? 'polite' : 'none'}
+        aria-level={ariaLevel}
+        aria-valuenow={ariaValueNow}
+        aria-valuemin={ariaValueMin}
+        aria-valuemax={ariaValueMax}
+        aria-valuetext={ariaValueText}
+        aria-hidden={ariaHidden}
+        aria-describedby={ariaDescribedBy}
+        aria-labelledby={ariaLabelledBy}
+        // הוספת התכונה role="paragraph" רק בגרסת ווב
+        // @ts-ignore - נתעלם משגיאת TypeScript מכיוון שזה תקין רק בגרסת ווב
+        role="paragraph"
+        className={`
+          ${getTextSizeClass()}
+          ${fontWeight === 'normal' ? 'font-normal' : fontWeight === 'bold' ? 'font-bold' : 'font-italic'}
+          ${getTextTypeClass()}
+          ${disabled ? 'opacity-50' : ''}
+        ` || ''}
+      >
+        {text}
+      </Text>
     );
   }
 
