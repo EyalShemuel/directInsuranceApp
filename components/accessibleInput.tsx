@@ -144,20 +144,25 @@ return (
     
     {/* שדה הקלט עצמו */}
     <TextInput        
-      className={`h-12 border-0 border-b ${isInErrorState ? 'border-b-2 border-red-600' : borderColorClass || 'border-gray-300'} ${textColorClass} ${bgColorClass} text-base text-right ${inputClassName}`}
-      placeholderTextColor={placeholderColor}
-      accessible={true}
-      accessibilityLabel={accessibilityLabelText}
-      accessibilityHint={accessibilityHint}
-      accessibilityState={{ 
-        disabled: restProps.editable === false
-      }}
-      aria-invalid={isInErrorState}
-      accessibilityLabelledBy={`label-${inputId}`}
-      accessibilityRole="text"
-      style={{ textAlign: 'right' }} 
-      {...restProps}
-    />
+  className={`h-12 border-0 border-b w-full min-w-[200px] ${isInErrorState ? 'border-b-2 border-red-600' : borderColorClass || 'border-gray-300'} ${textColorClass} ${bgColorClass} text-base ${inputClassName}`}
+  placeholderTextColor={placeholderColor}
+  accessible={true}
+  accessibilityLabel={accessibilityLabelText}
+  accessibilityHint={accessibilityHint}
+  accessibilityState={{ 
+    disabled: restProps.editable === false
+  }}
+  aria-invalid={isInErrorState}
+  accessibilityLabelledBy={`label-${inputId}`}
+  accessibilityRole="text"
+  style={{ 
+    textAlign: rtlEnabled ? 'right' : 'left',
+    width: '100%', // הוספת רוחב מלא
+    minWidth: 280, // הגדרת רוחב מינימלי
+    ...inputStyle 
+  }} 
+  {...restProps}
+/>
     
     {/* הודעת שגיאה (אם יש) */}
     {isInErrorState && (

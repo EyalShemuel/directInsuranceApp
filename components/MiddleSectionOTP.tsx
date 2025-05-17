@@ -14,10 +14,10 @@ const MiddleSectionOTP = () => {
   const [isCodeValid, setIsCodeValid] = useState(false);
   const [sentButtonDisabled, setSentButtonDisabled] = useState(true);
   const [isError, setIsError] = useState(false);
-  
+
   // רפרנס לשדה הקלט עבור פוקוס
   const inputRef = useRef<TextInput>(null);
-  
+
   // טקסט שגיאה מאוחד
   const ERROR_MESSAGE = 'קוד האימות שהזנת שגוי';
 
@@ -69,9 +69,9 @@ const MiddleSectionOTP = () => {
     console.log('Resending OTP code');
     setPopupMessageText('קוד אימות חדש נשלח בהצלחה');
     setShowPopup(true);
-    setOtpCode(''); 
+    setOtpCode('');
     setIsError(false);
-    
+
     // פוקוס אוטומטי בשדה הקלט אחרי שליחה מחדש
     setTimeout(() => {
       if (inputRef.current) {
@@ -89,29 +89,25 @@ const MiddleSectionOTP = () => {
   };
 
   return (
-    <View 
+    <View
       className="flex-1 mt-10 self-center items-center"
       accessible={true}
       accessibilityLabel="טופס הזנת קוד אימות חד-פעמי"
     >
       {/* כותרת המסך */}
-      <AccsesibleText
-        text="הזנת קוד אימות"
-        type="header"
-        size="large"
-        className="mb-4"
-        accessibilityLabel="מסך הזנת קוד אימות חד-פעמי"
-      />
-      
+
       <View className="flex-1 justify-between mb-8 mt-4">
-        
         <AccessibleTextInput
-          label="קוד אימות"
-          required={true}
-          errorMessage={ERROR_MESSAGE}          
-          className="w-64"
-          labelClassName="text-text-secondary text-sm mb-1.5 font-medium"
-          inputClassName={`text-text-secondary w-full border-b-2 ${isError ? 'border-red-500' : 'border-text-secondary'}`}
+          label="הזנת קוד אימות"
+          required={false}
+          errorMessage={ERROR_MESSAGE}
+          className="w-full px-2" // הוספת padding בצדדים
+          labelClassName="text-text-secondary mt-6 mb-5 font-medium justify-center self-center items-center text-xl"
+          inputClassName={`text-text-secondary w-full min-w-[200px] border-b-4 ${
+            isError ? 'border-red-500' : 'border-text-secondary'
+          }`}
+          containerStyle={{ width: '100%', minWidth: 280 }} // הוספת רוחב מינימלי
+          inputStyle={{ width: '100%', minWidth: 280 }} // הוספת רוחב מינימלי לשדה עצמו
           onChange={(e) => setOtpCode(e.nativeEvent.text)}
           value={otpCode}
           maxLength={6}
@@ -121,10 +117,8 @@ const MiddleSectionOTP = () => {
           accessibilityLabel="שדה הזנת קוד אימות בן 6 ספרות"
           accessibilityHint="הזן את הקוד בן 6 הספרות שנשלח אליך"
           accessibilityState={{ disabled: false, selected: false }}
-         
-         
         />
-        
+
         {/* מידע והנחיות למשתמש */}
         <View className="mt-6 mb-2">
           <AccsesibleText
@@ -135,7 +129,7 @@ const MiddleSectionOTP = () => {
             accessibilityLabel="האם לא קיבלת את קוד האימות?"
             isLiveRegion={false}
           />
-          
+
           {/* כפתור לשליחה חוזרת */}
           <AccsesibleButton
             onPress={resendCode}
@@ -160,7 +154,7 @@ const MiddleSectionOTP = () => {
           />
         )}
       </View>
-      
+
       {/* לחצן שלח */}
       <View style={{ width: '100%', alignItems: 'center' }}>
         <AccsesibleButton
@@ -184,8 +178,7 @@ const MiddleSectionOTP = () => {
           activeColor="#388E3C"
         />
       </View>
-      
-     
+
       <PopupMessage
         header={isCodeValid ? 'הצלחה!' : 'שגיאה!'}
         text={popupMessageText}
